@@ -17,23 +17,28 @@ This project packages a personal integration. The desktop connection override is
 
 1. Wait for all local Codex tasks to finish.
 2. Quit every ChatGPT desktop app instance.
-3. Clone this repository.
-4. Run the installer:
+3. Run the installer:
 
    ```sh
-   python3 install.py
+   curl -fsSL https://raw.githubusercontent.com/ukchucktown/codex-shared-sessions/main/install | sh
    ```
 
-5. Add `$HOME/.local/bin` to `PATH` if that directory is not present.
-6. Open the ChatGPT desktop app.
-7. Open a new terminal.
+4. Add `$HOME/.local/bin` to `PATH` if that directory is not present.
+5. Open the ChatGPT desktop app.
+6. Open a new terminal.
 
-The installer creates a user LaunchAgent. The service listens only on `127.0.0.1`. The installer does not change a repository.
+The command downloads the public repository into a temporary directory. The installer creates a user LaunchAgent. The service listens only on `127.0.0.1`. The installer does not change a repository.
+
+From a local clone, run the same installer with this command:
+
+```sh
+./install
+```
 
 Use `--codex` when the desktop app is not in `/Applications/ChatGPT.app`:
 
 ```sh
-python3 install.py --codex /path/to/codex
+curl -fsSL https://raw.githubusercontent.com/ukchucktown/codex-shared-sessions/main/install | sh -s -- --codex /path/to/codex
 ```
 
 ## Use a worktree
@@ -93,4 +98,3 @@ The installer stores no Codex credentials. Codex continues to use the desktop ap
 See [Architecture](docs/architecture.md) for the components and the data flow. See [Troubleshooting](docs/troubleshooting.md) for recovery procedures.
 
 The implementation follows the [official Codex App Server documentation](https://learn.chatgpt.com/docs/app-server).
-

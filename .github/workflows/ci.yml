@@ -18,4 +18,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: test -x install && sh -n install
       - run: python3 -m py_compile install.py src/server.py

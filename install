@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+case "$0" in
+    install | */install)
+        script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+        if [ -f "$script_dir/install.py" ] && [ -f "$script_dir/src/server.py" ]; then
+            exec python3 "$script_dir/install.py" "$@"
+        fi
+        ;;
+esac
+
+for command_name in curl tar python3; do
+    if ! command -v "$command_name" >/dev/null 2>&1; then
+        echo "Cannot find the $command_name command." >&2
+        exit 1
+    fi
+done
+
+archive_url="https://github.com/ukchucktown/codex-shared-sessions/archive/refs/heads/main.tar.gz"
+bootstrap_root=$(mktemp -d "${TMPDIR:-/tmp}/codex-shared-sessions.XXXXXX")
+trap 'rm -rf "$bootstrap_root"' 0
+
+mkdir "$bootstrap_root/source"
+curl -fsSL "$archive_url" -o "$bootstrap_root/source.tar.gz"
+tar -xzf "$bootstrap_root/source.tar.gz" -C "$bootstrap_root/source" --strip-components=1
+
+python3 "$bootstrap_root/source/install.py" "$@"

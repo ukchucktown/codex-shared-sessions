@@ -1,0 +1,11 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Generated installation state
+config.json
+install-backup.json
+server-state.json
+logs/
+
